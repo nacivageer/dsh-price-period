@@ -1,0 +1,4 @@
+# dsh-price-period: one Client half (a header chip). The Host half is an empty apply().
+- insert:
+    - id: dsh-price-period
+      name: dsh-price-period

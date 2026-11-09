@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Price period indicator",
+    "description": "A header chip that shows whether DeepSeek is currently in peak or half-price billing, with a countdown when the period flips within 30 minutes."
+  }
+}

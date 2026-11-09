@@ -1,0 +1,71 @@
+{
+  "name": "dsh-price-period",
+  "version": "0.1.0-alpha.1",
+  "description": "A DeepSeek Harness header chip showing whether the DeepSeek API is currently in peak or off-peak (half-price) billing, with a live countdown when the period flips within 30 minutes.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "data/cn-holidays.json",
+    "tools/*.mjs",
+    "test/*.mjs",
+    "docs/*.png",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "icon": "icon.svg",
+  "license": "MIT",
+  "author": "72NG (https://github.com/nacivageer)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nacivageer/dsh-price-period.git"
+  },
+  "homepage": "https://github.com/nacivageer/dsh-price-period#readme",
+  "bugs": {
+    "url": "https://github.com/nacivageer/dsh-price-period/issues"
+  },
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": ">=0.2.2-rc.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek-harness-plugin",
+    "deepseek",
+    "pricing",
+    "peak",
+    "off-peak",
+    "header",
+    "countdown"
+  ],
+  "scripts": {
+    "test": "node test/period.test.mjs",
+    "check:holidays": "node tools/sync-holidays.mjs --check",
+    "sync:holidays": "node tools/sync-holidays.mjs --mirror",
+    "prepublishOnly": "npm test"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}

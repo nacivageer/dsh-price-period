@@ -2,7 +2,7 @@
 
 DeepSeek Harness 标题栏里的一枚时段标签：现在的 API 计价是**高峰期**还是**半价期**，跨期不到 30 分钟时带倒计时。
 
-`0.1.0-alpha.1` · MIT · 零运行时依赖 · 不联网
+`0.1.0-alpha.1` · MIT · 零运行时依赖 · 不联网 · [![test](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml/badge.svg)](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml)
 
 ![标题栏里的时段标签](docs/header.png)
 

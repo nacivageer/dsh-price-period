@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.2 — 2026-11-11
+
+只改分发产物，不改行为。
+
+- `tools/`、`test/`、`.github/` 通过 `.gitattributes` 的 `export-ignore` 排除在 `github:` / npm 安装取的归档之外；`package.json` 的 `files` 同步去掉 `tools/*.mjs` 与 `test/*.mjs`。
+- 起因：插件市场的静态能力扫描读的是安装产物，`tools/sync-holidays.mjs` 的 `node:fs` 与 `process.env` 被记成了插件自身的能力（`fs-read` / `fs-write` / `env`）。运行时本来就不碰这些，现在产物里也不含它们。
+- README 增加「它碰什么（能力披露）」一节，写明运行时与维护脚本的边界。
+
 ## 0.1.0-alpha.1 — 2026-11-09
 
 首个公开版本。

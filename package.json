@@ -1,6 +1,6 @@
 {
   "name": "dsh-price-period",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "A DeepSeek Harness header chip showing whether the DeepSeek API is currently in peak or off-peak (half-price) billing, with a live countdown when the period flips within 30 minutes.",
   "type": "module",
   "main": "./index.js",
@@ -19,8 +19,6 @@
     "locale/*.json",
     "icon.svg",
     "data/cn-holidays.json",
-    "tools/*.mjs",
-    "test/*.mjs",
     "docs/*.png",
     "README.md",
     "CHANGELOG.md",

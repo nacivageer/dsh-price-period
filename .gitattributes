@@ -1,3 +1,11 @@
 * text=auto eol=lf
 *.png binary
 *.tgz binary
+
+# Maintainer-only files: kept in git, left out of the archives that `github:`
+# and npm installs are built from (GitHub's codeload honours export-ignore).
+# Nothing in the shipped plugin imports them — client.js carries the generated
+# holiday block inline.
+tools/ export-ignore
+test/ export-ignore
+.github/ export-ignore

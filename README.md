@@ -2,7 +2,7 @@
 
 DeepSeek Harness 标题栏里的一枚时段标签：现在的 API 计价是**高峰期**还是**半价期**，跨期不到 30 分钟时带倒计时。
 
-`0.1.0-alpha.1` · MIT · 零运行时依赖 · 不联网 · [![test](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml/badge.svg)](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml)
+`0.1.0-alpha.2` · MIT · 零运行时依赖 · 不联网 · [![test](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml/badge.svg)](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml)
 
 ![标题栏里的时段标签](docs/header.png)
 
@@ -16,6 +16,14 @@ DeepSeek Harness 标题栏里的一枚时段标签：现在的 API 计价是**�
 | 距下次切换不足 30 分钟时显示倒计时 | 不做定时任务，到点不提醒你 |
 | 节假日/周末全天按半价处理，周末跨期跳到下周一 | 未收录年份不会「猜」节假日——会在标签上打 `⚠` |
 | 每秒用本机时钟重算，无网络请求 | 不替你判断「这个任务该不该现在跑」 |
+
+### 它碰什么（能力披露）
+
+运行时只做一件事：用浏览器时钟算时段，再把一段 JSX 交给 `conversation.session.header.utilities`。`client.js` 里没有 `fetch`、没有 `XMLHttpRequest`、没有 `localStorage`、没有 `process.env`、没有 `node:fs`——唯一的 `require` 是宿主已经提供的 `react`。
+
+仓库里的 `tools/sync-holidays.mjs` 确实读写文件、读 `DSH_HOME`，但它是**维护者脚本**，不随安装产物分发：`.gitattributes` 用 `export-ignore` 把 `tools/`、`test/`、`.github/` 排除在 `github:` 安装所取的归档之外，`package.json` 的 `files` 同样不含它们。所以插件市场扫描安装产物时，能力面只有那枚标签本身。
+
+从 `git clone` 装源码的话这些脚本还在（那是维护用的）；安装产物与仓库源码的唯一差异就是它们。
 
 ## 安装
 
@@ -36,8 +44,8 @@ dsh plugin --profile desktop add github:nacivageer/dsh-price-period
 git clone https://github.com/nacivageer/dsh-price-period
 cd dsh-price-period
 npm test                        # 12 个时钟用例 + 节假日表校验
-npm pack                        # 产出 dsh-price-period-0.1.0-alpha.1.tgz
-dsh plugin --profile desktop add ./dsh-price-period-0.1.0-alpha.1.tgz
+npm pack                        # 产出 dsh-price-period-0.1.0-alpha.2.tgz
+dsh plugin --profile desktop add ./dsh-price-period-0.1.0-alpha.2.tgz
 ```
 
 > 不要用 `dsh plugin add .`（目录 link）来分发。pnpm 10 + Windows 下会生成坏的符号链接，且插件真实路径在 profile 树外时运行时解析不到依赖；tarball 与 git 两种形态才和 npm 行为一致。
@@ -117,6 +125,7 @@ A DeepSeek Harness header chip that shows whether the DeepSeek API is currently 
 - One global rate card — being outside mainland China changes your local clock, not the schedule.
 - Install: `dsh plugin --profile desktop add github:nacivageer/dsh-price-period`, then restart. No build step, no dependencies, no network calls.
 - Chinese public holidays live in `data/cn-holidays.json`; a year missing from `coveredYears` renders a `⚠` instead of guessing silently.
+- What it touches: nothing at runtime beyond the browser clock — no filesystem, network, storage or environment variables. The repo's maintainer tooling (`tools/`, `test/`, `.github/`) is excluded from the installed archive via `.gitattributes` `export-ignore`.
 - Source and issues: https://github.com/nacivageer/dsh-price-period
 
 ## License

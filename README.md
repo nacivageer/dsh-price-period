@@ -2,7 +2,7 @@
 
 DeepSeek Harness 标题栏里的一枚时段标签：现在的 API 计价是**高峰期**还是**半价期**，跨期不到 30 分钟时带倒计时。
 
-`0.1.0-alpha.2` · MIT · 零运行时依赖 · 不联网 · [![test](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml/badge.svg)](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml)
+`0.1.0-alpha.3` · MIT · 零运行时依赖 · 不联网 · [![test](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml/badge.svg)](https://github.com/nacivageer/dsh-price-period/actions/workflows/test.yml)
 
 ![标题栏里的时段标签](docs/header.png)
 
@@ -43,9 +43,9 @@ dsh plugin --profile desktop add github:nacivageer/dsh-price-period
 ```sh
 git clone https://github.com/nacivageer/dsh-price-period
 cd dsh-price-period
-npm test                        # 12 个时钟用例 + 节假日表校验
-npm pack                        # 产出 dsh-price-period-0.1.0-alpha.2.tgz
-dsh plugin --profile desktop add ./dsh-price-period-0.1.0-alpha.2.tgz
+npm test                        # 14 个时钟用例 + 节假日表校验
+npm pack                        # 产出 dsh-price-period-0.1.0-alpha.3.tgz
+dsh plugin --profile desktop add ./dsh-price-period-0.1.0-alpha.3.tgz
 ```
 
 > 不要用 `dsh plugin add .`（目录 link）来分发。pnpm 10 + Windows 下会生成坏的符号链接，且插件真实路径在 profile 树外时运行时解析不到依赖；tarball 与 git 两种形态才和 npm 行为一致。
@@ -78,19 +78,19 @@ npm run sync:holidays      # 从 data/ 重写 client.js，并镜像到 ~/.dsh/da
 npm run check:holidays     # 只校验，不一致 exit 1
 ```
 
-现行内容（国务院 2026 年放假通知，国办发明电〔2025〕7号）：
+现行内容（国办发明电〔2025〕7 号、国办发明电〔2026〕10 号）：
 
-| 节日 | 日期 |
-|---|---|
-| 元旦 | 1/1–1/3 |
-| 春节 | 2/15–2/23 |
-| 清明 | 4/4–4/6 |
-| 劳动节 | 5/1–5/5 |
-| 端午 | 6/19–6/21 |
-| 中秋 | 9/25–9/27 |
-| 国庆 | 10/1–10/7 |
+| 节日 | 2026 | 2027 |
+|---|---|---|
+| 元旦 | 1/1–1/3 | 1/1–1/3 |
+| 春节 | 2/15–2/23 | 2/5–2/13 |
+| 清明 | 4/4–4/6 | 4/3–4/5 |
+| 劳动节 | 5/1–5/5 | 5/1–5/5 |
+| 端午 | 6/19–6/21 | 6/9 |
+| 中秋 | 9/25–9/27 | 9/15 |
+| 国庆 | 10/1–10/7 | 10/1–10/7 |
 
-调休上班的周六（如 2/14、2/28、5/9、10/10）**不**单独处理：官方口径是周末一律半价，所以它们本来就是半价。
+调休上班的周末（2026 年如 2/14、2/28、5/9、10/10；2027 年如 1/31、2/14、5/8、9/26、10/9）**不**单独处理：官方口径是周末一律半价，所以它们本来就是半价。
 
 ### 新一年怎么维护
 
@@ -108,7 +108,7 @@ node tools/sync-holidays.mjs --check
 
 测试用假的 `window.__ModuleLoader__` 加载**真实的** `client.js`，通过 `__period` 测试口验证时钟逻辑，不复制一份调度代码；最后逐条比对 `client.js` 的 `HOLIDAYS` / `HOLIDAYS_COVERED` 与 `data/cn-holidays.json`，漂了就失败（读不到文件也是失败，不会静默变绿）。
 
-覆盖：工作日上午/午休/下午、09:00 整点、周五深夜跨周末、周六、2026 国庆（含节前夜跨整个假期）、调休补班的周六、倒计时格式化、覆盖年份标记、未收录年份的降级行为。
+覆盖：工作日上午/午休/下午、09:00 整点、周五深夜跨周末、周六、2026 国庆（含节前夜跨整个假期）、2027 元旦与春节（跨整个 9 天假期）、调休补班的周末、倒计时格式化、覆盖年份标记、未收录年份的降级行为。
 
 ## 已知限制
 

@@ -140,15 +140,34 @@ const cases = [
     next: beijing(2026, 10, 8, 9),
   },
   {
-    // 契约是「说清楚自己在猜」，不是「猜对」：2027 安排发布前，工作日假期
-    // 必然被读成高峰，芯片靠 ⚠ 与 tooltip 把它暴露出来，这条用例锁住这个行为。
-    name: '2027-01-01 10:00 — uncovered year degrades to weekends only, flagged',
+    name: '2027-01-01 10:00 — New Year 2027 is covered, off-peak all day',
     now: Date.parse('2027-01-01T10:00:00+08:00'),
+    peak: false,
+    holiday: true,
+    uncovered: false,
+    remaining: 71 * HOUR,
+    next: beijing(2027, 1, 4, 9),
+  },
+  {
+    // 2027 春节 2/5–2/13 跨两个周末；2/14 是调休上班的周日，仍按周末算半价。
+    name: '2027-02-08 10:00 — Spring Festival runs through the whole 9-day break',
+    now: Date.parse('2027-02-08T10:00:00+08:00'),
+    peak: false,
+    holiday: true,
+    uncovered: false,
+    remaining: 7 * 24 * HOUR - HOUR,
+    next: beijing(2027, 2, 15, 9),
+  },
+  {
+    // 契约是「说清楚自己在猜」，不是「猜对」：未收录年份里工作日假期
+    // 必然被读成高峰，芯片靠 ⚠ 与 tooltip 把它暴露出来，这条用例锁住这个行为。
+    name: '2028-01-03 10:00 — uncovered year degrades to weekends only, flagged',
+    now: Date.parse('2028-01-03T10:00:00+08:00'),
     peak: true,
     holiday: false,
     uncovered: true,
     remaining: 2 * HOUR,
-    next: beijing(2027, 1, 1, 12),
+    next: beijing(2028, 1, 3, 12),
   },
 ];
 
@@ -180,7 +199,7 @@ function renderChip(iso) {
 
 const byClass = (chip, className) => chip.children.find((node) => node && node.props && node.props.className === className);
 
-const uncovered = renderChip('2027-01-01T10:00:00+08:00');
+const uncovered = renderChip('2028-01-03T10:00:00+08:00');
 assert.equal(uncovered.props['data-uncovered'], 'true', '未收录年份应带 data-uncovered');
 assert.ok(byClass(uncovered, 'dsh-price-period__warn'), '未收录年份应渲染 ⚠');
 assert.ok(uncovered.props.title.includes('hint.uncovered'), '未收录年份的 tooltip 应说明原因');
